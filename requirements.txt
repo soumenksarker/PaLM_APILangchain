@@ -13,4 +13,5 @@ pdfminer
 pdfminer-six
 pysqlite3-binary
 faiss-cpu
+chromadb
 docx2txt
