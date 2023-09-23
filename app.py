@@ -13,6 +13,7 @@ from langchain.document_loaders import TextLoader
 from langchain.document_loaders import Docx2txtLoader
 from langchain.embeddings import GooglePalmEmbeddings
 from langchain.llms import GooglePalm
+from langchain.indexes import VectorstoreIndexCreator
 
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 import os
