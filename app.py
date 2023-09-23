@@ -77,7 +77,7 @@ def create_conversational_chain(vector_store):
     # chain = ConversationalRetrievalChain.from_llm(llm=llm, chain_type='stuff',
     #                                              retriever=vector_store.as_retriever(search_kwargs={"k": 2}),
     #                                              memory=memory)
-    llm = GooglePalm(temperature=0.1)  # OpenAI()
+    llm = GooglePalm(streaming = True, callbacks=[StreamingStdOutCallbackHandler()], temperature=0.1)  # OpenAI()
     chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
         chain_type="stuff",
