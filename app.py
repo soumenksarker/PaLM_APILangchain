@@ -81,7 +81,7 @@ def create_conversational_chain(vector_store):
     chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
         chain_type="stuff",
-        retriever=index.vectorstore.as_retriever(),
+        retriever=vectorstore.as_retriever(),
         # input_key="question",
         memory=memory,
         )
