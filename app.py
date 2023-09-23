@@ -117,7 +117,7 @@ def main():
                 text.extend(loader.load())
                 os.remove(temp_file_path)
 
-        text_splitter ==RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=200) 
+        text_splitter =RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=200) 
         text_chunks = text_splitter.split_documents(text)
 
         # Create embeddings
