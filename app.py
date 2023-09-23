@@ -81,7 +81,7 @@ def create_conversational_chain(vector_store):
     chain = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
-        retriever=vector_store.as_retriever(),
+        retriever=index.vectorstore.as_retriever(),
         # input_key="question",
         return_source_documents=True,
     )
@@ -120,14 +120,19 @@ def main():
         text_splitter =RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=200) 
         text_chunks = text_splitter.split_documents(text)
 
-        # Create embeddings
-        embeddings = GooglePalmEmbeddings()
+        # # Create embeddings
+        # embeddings = GooglePalmEmbeddings()
 
-        # Create vector store
-        vector_store = FAISS.from_documents(text_chunks, embedding=embeddings)
+        # # Create vector store
+        # vector_store = FAISS.from_documents(text_chunks, embedding=embeddings)
+
+        index = VectorstoreIndexCreator(
+                embedding=GooglePalmEmbeddings(),
+                text_splitter=RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=0),
+            ).from_documents(text_chunks)
 
         # Create the chain object
-        chain = create_conversational_chain(vector_store)
+        chain = create_conversational_chain(index)
 
         
         display_chat_history(chain)
