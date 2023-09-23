@@ -72,12 +72,12 @@ def create_conversational_chain(vector_store):
     #     model = "replicate/llama-7b:ac808388e2e9d8ed35a5bf2eaa7d83f0ad53f9e3df31a42e4eb0a0c3249b3165", 
     #     callbacks=[StreamingStdOutCallbackHandler()],
     #     input = {"temperature": 0.01, "max_length" :500,"top_p":1})
-    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
     # chain = ConversationalRetrievalChain.from_llm(llm=llm, chain_type='stuff',
     #                                              retriever=vector_store.as_retriever(search_kwargs={"k": 2}),
     #                                              memory=memory)
-    llm = GooglePalm(streaming = True, callbacks=[StreamingStdOutCallbackHandler()], temperature=0.1)  # OpenAI()
+    llm = GooglePalm(callbacks=[StreamingStdOutCallbackHandler()], temperature=0.1)  # OpenAI()
+    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
     chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
         chain_type="stuff",
