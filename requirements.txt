@@ -4,6 +4,7 @@ python-dotenv==1.0.0
 streamlit==1.18.1
 pypdf
 streamlit-extras
+streamlit_chat
 altair==4.0
 google-generativeai
 unstructured
@@ -11,4 +12,5 @@ pdf2image
 pdfminer
 pdfminer-six
 pysqlite3-binary
-chromadb
+faiss-cpu
+docx2txt
