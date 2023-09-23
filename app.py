@@ -3,7 +3,7 @@ import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import streamlit as st
 from streamlit_chat import message
-from langchain.chains import ConversationalRetrievalChain
+from langchain.chains import RetrievalQA, ConversationalRetrievalChain
 
 from langchain.text_splitter import CharacterTextSplitter, RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS
@@ -34,9 +34,10 @@ def initialize_session_state():
         st.session_state['past'] = ["Hey! 👋"]
 
 def conversation_chat(query, chain, history):
-    result = chain({"question": query, "chat_history": history})
-    history.append((query, result["answer"]))
-    return result["answer"]
+    # result = chain({"question": query, "chat_history": history})
+    # history.append((query, result["answer"]))
+    response = chain(query)
+    return st.write(response["result"])
 
 def display_chat_history(chain):
     reply_container = st.container()
@@ -76,15 +77,14 @@ def create_conversational_chain(vector_store):
     # chain = ConversationalRetrievalChain.from_llm(llm=llm, chain_type='stuff',
     #                                              retriever=vector_store.as_retriever(search_kwargs={"k": 2}),
     #                                              memory=memory)
-    llm = GooglePalm(callbacks=[StreamingStdOutCallbackHandler()], temperature=0.1)  # OpenAI()
-    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    chain = ConversationalRetrievalChain.from_llm(
+    llm = GooglePalm(temperature=0.1)  # OpenAI()
+    chain = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
         retriever=vector_store.as_retriever(),
         # input_key="question",
-        memory=memory,
-        )
+        return_source_documents=True,
+    )
     return chain
 
 def main():
