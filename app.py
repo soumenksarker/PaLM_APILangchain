@@ -44,7 +44,7 @@ def display_chat_history(chain):
     with container:
         with st.form(key='my_form', clear_on_submit=True):
             user_input = st.text_input("Question:", placeholder="Ask about your Documents", key='input')
-            _, c=st.columns([9,1])
+            _, c, _=st.columns([2,1,2])
             submit_button = c.form_submit_button(label='Send')
 
         if submit_button and user_input:
