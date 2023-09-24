@@ -32,6 +32,8 @@ def initialize_session_state():
         st.session_state['past'] = ["Hey! 👋"]
 
 def conversation_chat(query, chain, history):
+    
+    
     #result = chain({"question": query, "chat_history": history})
     response = chain(query)
     history.append((query, response["result"]))
@@ -59,31 +61,21 @@ def display_chat_history(chain):
                 message(st.session_state["past"][i], is_user=True, key=str(i) + '_user', avatar_style="thumbs")
                 message(st.session_state["generated"][i], key=str(i), avatar_style="fun-emoji")
 
-def create_conversational_chain(index):
+def create_conversational_chain(docsearch):
     load_dotenv()
-    # Create llm
-    #llm = CTransformers(model="llama-2-7b-chat.ggmlv3.q4_0.bin",
-                        #streaming=True, 
-                        #callbacks=[StreamingStdOutCallbackHandler()],
-                        #model_type="llama", config={'max_new_tokens': 500, 'temperature': 0.01})
-    # llm = Replicate(
-    #     streaming = True,
-    #     model = "replicate/llama-7b:ac808388e2e9d8ed35a5bf2eaa7d83f0ad53f9e3df31a42e4eb0a0c3249b3165", 
-    #     callbacks=[StreamingStdOutCallbackHandler()],
-    #     input = {"temperature": 0.01, "max_length" :500,"top_p":1})
-
-    # chain = ConversationalRetrievalChain.from_llm(llm=llm, chain_type='stuff',
-    #                                              retriever=vector_store.as_retriever(search_kwargs={"k": 2}),
-    #                                              memory=memory)
-    llm = GooglePalm(temperature=0.1)  # OpenAI()
-    chain = RetrievalQA.from_chain_type(
-        llm=llm,
-        chain_type="stuff",
-        retriever=index.vectorstore.as_retriever(),
-        # input_key="question",
-        return_source_documents=True,
-    )
-    return chain
+    prompt_template  = """
+    Use the following piece of context to answer the question. Please provide a detailed response for each of the question.
+    
+    {context}
+    
+    Question: {question}
+    
+    Answer in Italian"""
+    prompt = PromptTemplate(template = prompt_template , input_variables=["context", "question"])
+    llm = GooglePalm(temperature=0.1) 
+    chain_type_kwargs = {"prompt": prompt}
+    qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=docsearch.as_retriever(), chain_type_kwargs=chain_type_kwargs)
+    return qa
 
 def main():
     load_dotenv()
@@ -122,11 +114,16 @@ def main():
         embeddings = GooglePalmEmbeddings()
         query_result = embeddings.embed_query("Hello World")
         st.write(len(query_result))
+        # initialize pinecone
+        pinecone.init(
+            api_key=PINECONE_API_KEY,  # find at app.pinecone.io
+            environment=PINECONE_API_ENV  # next to api key in console
+        )
+        index_name = "langchainpinecone" # put in the name of your pinecone index here
 
-       
-
+        docsearch = Pinecone.from_texts([t.page_content for t in text_chunks], embeddings, index_name=index_name)
         # Create the chain object
-        chain = create_conversational_chain(index)
+        chain = create_conversational_chain(docsearch)
 
         
         display_chat_history(chain)
