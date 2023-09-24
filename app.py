@@ -70,7 +70,7 @@ def create_conversational_chain(docsearch):
     
     Question: {question}
     
-    Answer in Bengali"""
+    Answer in English"""
     prompt = PromptTemplate(template = prompt_template , input_variables=["context", "question"])
     llm = GooglePalm(temperature=0.1) 
     chain_type_kwargs = {"prompt": prompt}
