@@ -109,7 +109,7 @@ def main():
         if len(urls)>0:
             # load data
             loader = UnstructuredURLLoader(urls=urls)
-            main_placeholder.text("System is loading ✅✅✅")
+            main_placeholder.sidebar.text("System is loading ✅✅✅")
             text.extend(loader.load())
             urls=[]
             time.sleep(2)
@@ -139,7 +139,7 @@ def main():
                 if loader:
                     text.extend(loader.load())
                     os.remove(temp_file_path)
-        main_placeholder.text("System is loading ✅✅✅")
+        main_placeholder.sidebar.text("System is loading ✅✅✅")
         text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
         text_chunks = text_splitter.split_documents(text)
         # Create the chain object
