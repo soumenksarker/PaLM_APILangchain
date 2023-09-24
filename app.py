@@ -73,7 +73,6 @@ def create_conversational_chain(docsearch):
     chain_type_kwargs = {"prompt": prompt}
     qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=docsearch.as_retriever(), chain_type_kwargs=chain_type_kwargs)
     return qa
-@st.experimental_singleton
 def load_embedding(text_chunks, index_name):
     load_dotenv()
     # # Create embeddings
