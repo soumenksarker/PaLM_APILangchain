@@ -36,8 +36,8 @@ def conversation_chat(query, chain, history):
     
     #result = chain({"question": query, "chat_history": history})
     response = chain.run(query)
-    history.append((query, response["result"]))
-    return response["result"]
+    history.append((query, response))
+    return response
 
 def display_chat_history(chain):
     reply_container = st.container()
