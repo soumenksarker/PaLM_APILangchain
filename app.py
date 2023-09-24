@@ -62,7 +62,7 @@ def display_chat_history(chain):
 def create_conversational_chain(docsearch):
     load_dotenv()
     prompt_template  = """
-    Search on google, bing, yahoo and use the following piece of context and update if needed to answer the question. Please provide a detailed response for each of the question.
+    Search on Google, Bing, and Yahoo based on questions and the following piece of context and update if needed to answer the question. Please provide a detailed response for each of the questions.
     
     {context}
     
@@ -90,7 +90,7 @@ def main():
     load_dotenv()
     # Initialize session state
     initialize_session_state()
-    st.title("Multi-Docs ChatBot:books:")
+    st.title("Expert System/Chat beyond your given information:books:")
     # Initialize Streamlit
     st.sidebar.title("Document Processing")
     uploaded_files = st.sidebar.file_uploader("Upload multiple files texts, docx or pdfs", accept_multiple_files=True)
