@@ -120,6 +120,7 @@ def main():
         #main_placeholder.text("Text Splitter...Started...✅✅✅")
         text_chunks = text_splitter.split_documents(data)
         urls=[]
+        url=None
     if uploaded_files:
         for file in uploaded_files:
             file_extension = os.path.splitext(file.name)[1]
@@ -142,6 +143,7 @@ def main():
         text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
         text_chunks = text_splitter.split_documents(text)
         text=[]
+        uploaded_files=None
       
     # Create the chain object
     chain=load_embedding(text_chunks)
