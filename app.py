@@ -80,7 +80,8 @@ def load_embedding(text_chunks, index_name):
     embeddings = GooglePalmEmbeddings()
     #query_result = embeddings.embed_query("Hello World")
     docsearch = Pinecone.from_texts([t.page_content for t in text_chunks], embeddings, index_name=index_name)
-    return docsearch
+    chain = create_conversational_chain(docsearch)
+    return chain
 def main():
     load_dotenv()
     # Initialize session state
@@ -117,9 +118,9 @@ def main():
                       environment="gcp-starter")  # next to api key in console)
          # initialize pinecone
         index_name = "langchainpalm2pinecone" # put in the name of your pinecone index here
-        docsearch=load_embedding(text_chunks, index_name)
         # Create the chain object
-        chain = create_conversational_chain(docsearch)
+        chain=load_embedding(text_chunks, index_name)
+       
 
         
         display_chat_history(chain)
