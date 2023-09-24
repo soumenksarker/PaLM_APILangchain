@@ -22,8 +22,8 @@ load_dotenv()
 
 
 def initialize_session_state():
-    if 'history' not in st.session_state:
-        st.session_state['history'] = []
+    # if 'history' not in st.session_state:
+    #     st.session_state['history'] = []
 
     if 'generated' not in st.session_state:
         st.session_state['generated'] = ["Hello! Ask me anything about 🤗"]
@@ -31,9 +31,9 @@ def initialize_session_state():
     if 'past' not in st.session_state:
         st.session_state['past'] = ["Hey! 👋"]
 
-def conversation_chat(query, chain, history):
+def conversation_chat(query, chain):
     response = chain.run(query)
-    history.append((query, response))
+    #history.append((query, response))
     return response
 
 def display_chat_history(chain):
@@ -47,7 +47,7 @@ def display_chat_history(chain):
 
         if submit_button and user_input:
             with st.spinner('Generating response...'):
-                output = conversation_chat(user_input, chain, st.session_state['history'])
+                output = conversation_chat(user_input, chain)
 
             st.session_state['past'].append(user_input)
             st.session_state['generated'].append(output)
@@ -119,9 +119,6 @@ def main():
         index_name = "langchainpalm2pinecone" # put in the name of your pinecone index here
         # Create the chain object
         chain=load_embedding(text_chunks, index_name)
-       
-
-        
         display_chat_history(chain)
 
 if __name__ == "__main__":
