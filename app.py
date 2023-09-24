@@ -113,7 +113,6 @@ def main():
         # # Create embeddings
         embeddings = GooglePalmEmbeddings()
         query_result = embeddings.embed_query("Hello World")
-        st.write(len(query_result))
         # initialize pinecone
         pinecone.init(api_key="0fa06a79-cf08-484b-b91c-236b77956235",  # find at app.pinecone.io
                       environment="gcp-starter")  # next to api key in console)
