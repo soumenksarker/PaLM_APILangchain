@@ -26,7 +26,7 @@ def initialize_session_state():
     #     st.session_state['history'] = []
 
     if 'generated' not in st.session_state:
-        st.session_state['generated'] = ["Hello! Ask me anything beyond your files!🤗"]
+        st.session_state['generated'] = ["Hello! Ask me anything about your files!🤗"]
 
     if 'past' not in st.session_state:
         st.session_state['past'] = ["Hey! 👋"]
