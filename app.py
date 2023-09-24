@@ -95,63 +95,58 @@ def main():
     
     # Initialize Streamlit
     st.sidebar.title("Document Processing")
-    s=False
     uploaded_files = st.sidebar.file_uploader("Upload multiple files texts, docx or pdfs", accept_multiple_files=True)
     st.sidebar.title("Enter URLs")
     urls = []
-    for i in range(1):
-        url = st.sidebar.text_input(f"URL {i+1}")
-        urls.append(url)
-        s=True
+    url = st.sidebar.text_input(f"URL")
+    urls.append(url)
     st.sidebar.write("To extract info from multiple URL's, paste a new URL replacing the previous one, info from new URL will be accommodated to the system automatically!")
     #st.sidebar.button("Process")
     main_placeholder = st.empty()
-    if uploaded_files or len(urls)>0:
-        text = []
-        text_chunks=None
-        if len(urls)>0 and s:
-            # load data
-            loader = UnstructuredURLLoader(urls=urls)
-            main_placeholder.text("System is loading ✅✅✅")
-            text.extend(loader.load())
-            s=False
-            #time.sleep(2)
-            data = loader.load()
-            # split data
-            text_splitter = RecursiveCharacterTextSplitter(
-                separators=['\n\n', '\n', '.', ','],
-                chunk_size=1000
-            )
-            #main_placeholder.text("Text Splitter...Started...✅✅✅")
-            text_chunks = text_splitter.split_documents(data)
-            urls=[]
-        if uploaded_files:
-            for file in uploaded_files:
-                file_extension = os.path.splitext(file.name)[1]
-                with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-                    temp_file.write(file.read())
-                    temp_file_path = temp_file.name
-    
-                loader = None
-                if file_extension == ".pdf":
-                    loader = PyPDFLoader(temp_file_path)
-                elif file_extension == ".docx" or file_extension == ".doc":
-                    loader = Docx2txtLoader(temp_file_path)
-                elif file_extension == ".txt":
-                    loader = TextLoader(temp_file_path)
-    
-                if loader:
-                    text.extend(loader.load())
-                    os.remove(temp_file_path)
-            main_placeholder.text("System is loading ✅✅✅")
-            text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
-            text_chunks = text_splitter.split_documents(text)
-            text=[]
-            s=False
-        # Create the chain object
-        chain=load_embedding(text_chunks)
-        main_placeholder.text("System is Running, Interact! ✅✅✅")
-        display_chat_history(chain)
+    text = []
+    text_chunks=None
+    if len(urls)>0:
+        # load data
+        loader = UnstructuredURLLoader(urls=urls)
+        main_placeholder.text("System is loading ✅✅✅")
+        text.extend(loader.load())
+        #time.sleep(2)
+        data = loader.load()
+        # split data
+        text_splitter = RecursiveCharacterTextSplitter(
+            separators=['\n\n', '\n', '.', ','],
+            chunk_size=1000
+        )
+        #main_placeholder.text("Text Splitter...Started...✅✅✅")
+        text_chunks = text_splitter.split_documents(data)
+        urls=[]
+    if uploaded_files:
+        for file in uploaded_files:
+            file_extension = os.path.splitext(file.name)[1]
+            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+                temp_file.write(file.read())
+                temp_file_path = temp_file.name
+
+            loader = None
+            if file_extension == ".pdf":
+                loader = PyPDFLoader(temp_file_path)
+            elif file_extension == ".docx" or file_extension == ".doc":
+                loader = Docx2txtLoader(temp_file_path)
+            elif file_extension == ".txt":
+                loader = TextLoader(temp_file_path)
+
+            if loader:
+                text.extend(loader.load())
+                os.remove(temp_file_path)
+        main_placeholder.text("System is loading ✅✅✅")
+        text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
+        text_chunks = text_splitter.split_documents(text)
+        text=[]
+      
+    # Create the chain object
+    chain=load_embedding(text_chunks)
+    main_placeholder.text("System is Running, Interact! ✅✅✅")
+    display_chat_history(chain)
 
 if __name__ == "__main__":
     main()
