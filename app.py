@@ -104,7 +104,7 @@ def main():
     #st.sidebar.button("Process")
     main_placeholder = st.empty()
     text = []
-    text_chunks=None
+    text_chunks=[]
     if url:
         # load data
         loader = UnstructuredURLLoader(urls=[url])
