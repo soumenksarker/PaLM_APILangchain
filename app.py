@@ -95,24 +95,26 @@ def main():
     
     # Initialize Streamlit
     st.sidebar.title("Document Processing")
+    s=False
     uploaded_files = st.sidebar.file_uploader("Upload multiple files texts, docx or pdfs", accept_multiple_files=True)
     st.sidebar.title("Enter URLs")
     urls = []
     for i in range(1):
         url = st.sidebar.text_input(f"URL {i+1}")
         urls.append(url)
+        s=True
     st.sidebar.write("To extract info from multiple URL's, paste a new URL replacing the previous one, info from new URL will be accommodated to the system automatically!")
     #st.sidebar.button("Process")
     main_placeholder = st.empty()
     if uploaded_files or len(urls)>0:
         text = []
         text_chunks=None
-        if len(urls)>0:
+        if len(urls)>0 and s:
             # load data
             loader = UnstructuredURLLoader(urls=urls)
             main_placeholder.text("System is loading ✅✅✅")
             text.extend(loader.load())
-            urls=[]
+            s=False
             #time.sleep(2)
             data = loader.load()
             # split data
@@ -144,6 +146,7 @@ def main():
             text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
             text_chunks = text_splitter.split_documents(text)
             text=[]
+            s=False
         # Create the chain object
         chain=load_embedding(text_chunks)
         main_placeholder.text("System is Running, Interact! ✅✅✅")
