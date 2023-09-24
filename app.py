@@ -32,9 +32,6 @@ def initialize_session_state():
         st.session_state['past'] = ["Hey! 👋"]
 
 def conversation_chat(query, chain, history):
-    
-    
-    #result = chain({"question": query, "chat_history": history})
     response = chain.run(query)
     history.append((query, response))
     return response
@@ -60,7 +57,7 @@ def display_chat_history(chain):
             for i in range(len(st.session_state['generated'])):
                 message(st.session_state["past"][i], is_user=True, key=str(i) + '_user', avatar_style="thumbs")
                 message(st.session_state["generated"][i], key=str(i), avatar_style="fun-emoji")
-
+@st.cache
 def create_conversational_chain(docsearch):
     load_dotenv()
     prompt_template  = """
@@ -76,7 +73,17 @@ def create_conversational_chain(docsearch):
     chain_type_kwargs = {"prompt": prompt}
     qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=docsearch.as_retriever(), chain_type_kwargs=chain_type_kwargs)
     return qa
-
+@st.cache
+def load_embedding(text_chunks):
+    # # Create embeddings
+    embeddings = GooglePalmEmbeddings()
+    #query_result = embeddings.embed_query("Hello World")
+    # initialize pinecone
+    pinecone.init(api_key="0fa06a79-cf08-484b-b91c-236b77956235",  # find at app.pinecone.io
+                  environment="gcp-starter")  # next to api key in console)
+    index_name = "langchainpalm2pinecone" # put in the name of your pinecone index here
+    docsearch = Pinecone.from_texts([t.page_content for t in text_chunks], embeddings, index_name=index_name)
+    return docsearch
 def main():
     load_dotenv()
     # Initialize session state
@@ -110,15 +117,7 @@ def main():
         text_splitter =RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=200) 
         text_chunks = text_splitter.split_documents(text)
 
-        # # Create embeddings
-        embeddings = GooglePalmEmbeddings()
-        query_result = embeddings.embed_query("Hello World")
-        # initialize pinecone
-        pinecone.init(api_key="0fa06a79-cf08-484b-b91c-236b77956235",  # find at app.pinecone.io
-                      environment="gcp-starter")  # next to api key in console)
-        index_name = "langchainpalm2pinecone" # put in the name of your pinecone index here
-
-        docsearch = Pinecone.from_texts([t.page_content for t in text_chunks], embeddings, index_name=index_name)
+        docsearch=load_embedding(text_chunks)
         # Create the chain object
         chain = create_conversational_chain(docsearch)
 
