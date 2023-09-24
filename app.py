@@ -35,7 +35,7 @@ def conversation_chat(query, chain, history):
     
     
     #result = chain({"question": query, "chat_history": history})
-    response = chain(query)
+    response = chain.run(query)
     history.append((query, response["result"]))
     return response["result"]
 
