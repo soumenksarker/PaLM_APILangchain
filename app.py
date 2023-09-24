@@ -27,7 +27,7 @@ def initialize_session_state():
     #     st.session_state['history'] = []
 
     if 'generated' not in st.session_state:
-        st.session_state['generated'] = ["Hello! Ask me anything about your files!🤗"]
+        st.session_state['generated'] = ["Hello! Ask me anything beyond your provided information!🤗"]
 
     if 'past' not in st.session_state:
         st.session_state['past'] = ["Hey! 👋"]
@@ -91,7 +91,7 @@ def main():
     load_dotenv()
     # Initialize session state
     initialize_session_state()
-    st.title("Expert System/Chat beyond your given information:books:")
+    st.title("Expert System/Information retrieval beyond your data:books:")
     
     # Initialize Streamlit
     st.sidebar.title("Document Processing")
