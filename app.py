@@ -17,7 +17,7 @@ import pinecone
 import os
 from dotenv import load_dotenv
 import tempfile
-
+import time
 
 load_dotenv()
 
@@ -111,6 +111,7 @@ def main():
             loader = UnstructuredURLLoader(urls=urls)
             main_placeholder.text("Data Loading...Started...✅✅✅")
             text.extend(loader.load())
+            time.sleep(2)
             # data = loader.load()
             # # split data
             # text_splitter = RecursiveCharacterTextSplitter(
