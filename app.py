@@ -73,11 +73,15 @@ def create_conversational_chain(docsearch):
     chain_type_kwargs = {"prompt": prompt}
     qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=docsearch.as_retriever(), chain_type_kwargs=chain_type_kwargs)
     return qa
-def load_embedding(text_chunks, index_name):
+def load_embedding(text_chunks):
     load_dotenv()
     # # Create embeddings
     embeddings = GooglePalmEmbeddings()
     #query_result = embeddings.embed_query("Hello World")
+    pinecone.init(api_key="0fa06a79-cf08-484b-b91c-236b77956235",  # find at app.pinecone.io
+                  environment="gcp-starter")  # next to api key in console)
+     # initialize pinecone
+    index_name = "langchainpalm2pinecone" # put in the name of your pinecone index here
     docsearch = Pinecone.from_texts([t.page_content for t in text_chunks], embeddings, index_name=index_name)
     chain = create_conversational_chain(docsearch)
     return chain
@@ -113,12 +117,8 @@ def main():
 
         text_splitter =RecursiveCharacterTextSplitter(chunk_size=700, chunk_overlap=150) 
         text_chunks = text_splitter.split_documents(text)
-        pinecone.init(api_key="0fa06a79-cf08-484b-b91c-236b77956235",  # find at app.pinecone.io
-                      environment="gcp-starter")  # next to api key in console)
-         # initialize pinecone
-        index_name = "langchainpalm2pinecone" # put in the name of your pinecone index here
         # Create the chain object
-        chain=load_embedding(text_chunks, index_name)
+        chain=load_embedding(text_chunks)
         display_chat_history(chain)
 
 if __name__ == "__main__":
