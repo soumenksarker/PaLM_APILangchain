@@ -124,6 +124,7 @@ def main():
             )
             #main_placeholder.text("Text Splitter...Started...✅✅✅")
             text_chunks = text_splitter.split_documents(data)
+            urls=[]
         if uploaded_files:
             for file in uploaded_files:
                 file_extension = os.path.splitext(file.name)[1]
