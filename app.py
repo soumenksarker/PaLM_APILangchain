@@ -110,7 +110,6 @@ def main():
         loader = UnstructuredURLLoader(urls=[url])
         main_placeholder.text("System is loading ✅✅✅")
         text.extend(loader.load())
-        url=None
         # #time.sleep(2)
         # data = loader.load()
         # # split data
@@ -121,6 +120,7 @@ def main():
         #main_placeholder.text("Text Splitter...Started...✅✅✅")
         text_chunks = text_splitter.split_documents(text)
         text=[]
+        url=False 
         # urls=[]
         #urls = []
     if uploaded_files:
@@ -141,7 +141,7 @@ def main():
             if loader:
                 text.extend(loader.load())
                 os.remove(temp_file_path)
-        uploaded_files=None
+        uploaded_files=False 
         main_placeholder.text("System is loading ✅✅✅")
         text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
         text_chunks = text_splitter.split_documents(text)
