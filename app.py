@@ -97,11 +97,11 @@ def main():
     st.sidebar.title("Document Processing")
     uploaded_files = st.sidebar.file_uploader("Upload multiple files texts, docx or pdfs", accept_multiple_files=True)
     st.sidebar.title("Enter URLs")
-    st.sidebar.write("To extract info from multiple URL's, paste a new URL one by one, info from new URL will be accommodated to the system automatically!")
     urls = []
     for i in range(1):
         url = st.sidebar.text_input(f"URL {i+1}")
         urls.append(url)
+    st.sidebar.write("To extract info from multiple URL's, paste a new URL one by one, info from new URL will be accommodated to the system automatically!")
     #st.sidebar.button("Process")
     main_placeholder = st.empty()
     if uploaded_files or len(urls)>0:
@@ -120,7 +120,7 @@ def main():
                 separators=['\n\n', '\n', '.', ','],
                 chunk_size=1000
             )
-            main_placeholder.text("Text Splitter...Started...✅✅✅")
+            #main_placeholder.text("Text Splitter...Started...✅✅✅")
             text_chunks = text_splitter.split_documents(data)
         if uploaded_files:
             for file in uploaded_files:
