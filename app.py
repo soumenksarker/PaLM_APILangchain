@@ -114,12 +114,13 @@ def main():
         # #time.sleep(2)
         # data = loader.load()
         # # split data
-        # text_splitter = RecursiveCharacterTextSplitter(
-        #     separators=['\n\n', '\n', '.', ','],
-        #     chunk_size=1000
-        # )
-        # #main_placeholder.text("Text Splitter...Started...✅✅✅")
-        # text_chunks = text_splitter.split_documents(data)
+        text_splitter = RecursiveCharacterTextSplitter(
+            separators=['\n\n', '\n', '.', ','],
+            chunk_size=1000
+        )
+        #main_placeholder.text("Text Splitter...Started...✅✅✅")
+        text_chunks = text_splitter.split_documents(text)
+        text=[]
         # urls=[]
         #urls = []
     if uploaded_files:
@@ -141,10 +142,10 @@ def main():
                 text.extend(loader.load())
                 os.remove(temp_file_path)
         uploaded_files=None
-    main_placeholder.text("System is loading ✅✅✅")
-    text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
-    text_chunks = text_splitter.split_documents(text)
-    text=[]
+        main_placeholder.text("System is loading ✅✅✅")
+        text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
+        text_chunks = text_splitter.split_documents(text)
+        text=[]
         
       
     # Create the chain object
