@@ -112,7 +112,7 @@ def main():
             main_placeholder.text("Data Loading...Started...✅✅✅")
             text.extend(loader.load())
             urls=[]
-            #time.sleep(2)
+            time.sleep(2)
             # data = loader.load()
             # # split data
             # text_splitter = RecursiveCharacterTextSplitter(
