@@ -63,7 +63,7 @@ def display_chat_history(chain):
 def create_conversational_chain(docsearch):
     load_dotenv()
     prompt_template  = """
-    Search on Google, Bing, and Yahoo based on questions and the following piece of context and update if needed to answer the question. Please provide a detailed response for each of the questions.
+    Base on the following piece of context and searching from other sources update if needed to answer the question. Please provide a detailed response for each of the questions.
     
     {context}
     
