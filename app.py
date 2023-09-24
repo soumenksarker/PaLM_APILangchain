@@ -106,7 +106,7 @@ def main():
     main_placeholder = st.empty()
     if uploaded_files or len(urls)>0:
         text = []
-        if process_url_clicked:
+        if len(urls)>0:
             # load data
             loader = UnstructuredURLLoader(urls=urls)
             main_placeholder.text("Data Loading...Started...✅✅✅")
