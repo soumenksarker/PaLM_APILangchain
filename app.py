@@ -117,7 +117,7 @@ def main():
         # initialize pinecone
         pinecone.init(api_key="0fa06a79-cf08-484b-b91c-236b77956235",  # find at app.pinecone.io
                       environment="gcp-starter")  # next to api key in console)
-        index_name = "langchainpinecone" # put in the name of your pinecone index here
+        index_name = "langchainpalm2pinecone" # put in the name of your pinecone index here
 
         docsearch = Pinecone.from_texts([t.page_content for t in text_chunks], embeddings, index_name=index_name)
         # Create the chain object
