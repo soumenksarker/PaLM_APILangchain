@@ -97,7 +97,7 @@ def main():
     st.sidebar.title("Document Processing")
     uploaded_files = st.sidebar.file_uploader("Upload multiple files texts, docx or pdfs", accept_multiple_files=True)
     st.sidebar.title("Enter URLs")
-    st.sidebar.write("To extract info from multiple URL's, remove the previous one and paste a new URL each time! Info from new URL will be accommodated to the system automatically!")
+    st.sidebar.write("To extract info from multiple URL's, paste a new URL one by one, info from new URL will be accommodated to the system automatically!")
     urls = []
     for i in range(1):
         url = st.sidebar.text_input(f"URL {i+1}")
