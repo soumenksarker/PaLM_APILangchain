@@ -11,7 +11,5 @@ unstructured
 pdf2image
 pdfminer
 pdfminer-six
-pysqlite3-binary
-faiss-cpu
-chromadb
+pinecone-client
 docx2txt
