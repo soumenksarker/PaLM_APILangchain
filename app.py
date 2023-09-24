@@ -115,8 +115,8 @@ def main():
         query_result = embeddings.embed_query("Hello World")
         st.write(len(query_result))
         # initialize pinecone
-        pinecone.init( api_key=PINECONE_API_KEY,  # find at app.pinecone.io
-                      environment=PINECONE_API_ENV  # next to api key in console)
+        pinecone.init(api_key="0fa06a79-cf08-484b-b91c-236b77956235",  # find at app.pinecone.io
+                      environment="gcp-starter"  # next to api key in console)
         index_name = "langchainpinecone" # put in the name of your pinecone index here
 
         docsearch = Pinecone.from_texts([t.page_content for t in text_chunks], embeddings, index_name=index_name)
