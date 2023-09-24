@@ -102,9 +102,9 @@ def main():
     for i in range(1):
         url = st.sidebar.text_input(f"URL {i+1}")
         urls.append(url)
-    st.sidebar.button("Process")
+    #st.sidebar.button("Process")
     main_placeholder = st.empty()
-    if uploaded_files or Process:
+    if uploaded_files or len(urls)>0:
         text = []
         if process_url_clicked:
             # load data
