@@ -111,7 +111,7 @@ def main():
                 text.extend(loader.load())
                 os.remove(temp_file_path)
 
-        text_splitter =RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=200) 
+        text_splitter =RecursiveCharacterTextSplitter(chunk_size=700, chunk_overlap=150) 
         text_chunks = text_splitter.split_documents(text)
         pinecone.init(api_key="0fa06a79-cf08-484b-b91c-236b77956235",  # find at app.pinecone.io
                       environment="gcp-starter")  # next to api key in console)
