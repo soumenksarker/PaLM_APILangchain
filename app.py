@@ -143,6 +143,7 @@ def main():
             main_placeholder.text("System is loading ✅✅✅")
             text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
             text_chunks = text_splitter.split_documents(text)
+            text=[]
         # Create the chain object
         chain=load_embedding(text_chunks)
         main_placeholder.text("System is Running, Interact! ✅✅✅")
