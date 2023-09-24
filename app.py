@@ -26,7 +26,7 @@ def initialize_session_state():
     #     st.session_state['history'] = []
 
     if 'generated' not in st.session_state:
-        st.session_state['generated'] = ["Hello! Ask me anything about 🤗"]
+        st.session_state['generated'] = ["Hello! Ask me anything beyond your files!🤗"]
 
     if 'past' not in st.session_state:
         st.session_state['past'] = ["Hey! 👋"]
@@ -88,7 +88,7 @@ def main():
     st.title("Multi-Docs ChatBot using llama2 :books:")
     # Initialize Streamlit
     st.sidebar.title("Document Processing")
-    uploaded_files = st.sidebar.file_uploader("Upload files", accept_multiple_files=True)
+    uploaded_files = st.sidebar.file_uploader("Upload files text, docx or pdfs", accept_multiple_files=True)
 
 
     if uploaded_files:
