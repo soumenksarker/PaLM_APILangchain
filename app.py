@@ -97,30 +97,31 @@ def main():
     st.sidebar.title("Document Processing")
     uploaded_files = st.sidebar.file_uploader("Upload multiple files texts, docx or pdfs", accept_multiple_files=True)
     st.sidebar.title("Enter URLs")
-    urls = []
+    #urls = []
     url = st.sidebar.text_input(f"URL")
-    urls.append(url)
+    #urls.append(url)
     st.sidebar.write("To extract info from multiple URL's, paste a new URL replacing the previous one, info from new URL will be accommodated to the system automatically!")
     #st.sidebar.button("Process")
     main_placeholder = st.empty()
     text = []
-    text_chunks=None
-    if len(urls)>0:
+    #text_chunks=None
+    if url:
         # load data
-        loader = UnstructuredURLLoader(urls=urls)
+        loader = UnstructuredURLLoader(urls=[url])
         main_placeholder.text("System is loading ✅✅✅")
         text.extend(loader.load())
-        #time.sleep(2)
-        data = loader.load()
-        # split data
-        text_splitter = RecursiveCharacterTextSplitter(
-            separators=['\n\n', '\n', '.', ','],
-            chunk_size=1000
-        )
-        #main_placeholder.text("Text Splitter...Started...✅✅✅")
-        text_chunks = text_splitter.split_documents(data)
-        urls=[]
-        #url=None
+        url=None
+        # #time.sleep(2)
+        # data = loader.load()
+        # # split data
+        # text_splitter = RecursiveCharacterTextSplitter(
+        #     separators=['\n\n', '\n', '.', ','],
+        #     chunk_size=1000
+        # )
+        # #main_placeholder.text("Text Splitter...Started...✅✅✅")
+        # text_chunks = text_splitter.split_documents(data)
+        # urls=[]
+        #urls = []
     if uploaded_files:
         for file in uploaded_files:
             file_extension = os.path.splitext(file.name)[1]
@@ -139,11 +140,12 @@ def main():
             if loader:
                 text.extend(loader.load())
                 os.remove(temp_file_path)
-        main_placeholder.text("System is loading ✅✅✅")
-        text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
-        text_chunks = text_splitter.split_documents(text)
-        text=[]
-        #uploaded_files=None
+        uploaded_files=None
+    main_placeholder.text("System is loading ✅✅✅")
+    text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
+    text_chunks = text_splitter.split_documents(text)
+    text=[]
+        
       
     # Create the chain object
     chain=load_embedding(text_chunks)
