@@ -57,7 +57,7 @@ def display_chat_history(chain):
             for i in range(len(st.session_state['generated'])):
                 message(st.session_state["past"][i], is_user=True, key=str(i) + '_user', avatar_style="thumbs")
                 message(st.session_state["generated"][i], key=str(i), avatar_style="fun-emoji")
-@st.cache
+#@st.cache
 def create_conversational_chain(docsearch):
     load_dotenv()
     prompt_template  = """
