@@ -1,21 +1,18 @@
-__import__('pysqlite3')
-import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import streamlit as st
 from streamlit_chat import message
-from langchain.chains import RetrievalQA, ConversationalRetrievalChain
+from langchain.chains import RetrievalQA
 
-from langchain.text_splitter import CharacterTextSplitter, RecursiveCharacterTextSplitter
-from langchain.vectorstores import FAISS
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.vectorstores import Pinecone
 from langchain.memory import ConversationBufferMemory
 from langchain.document_loaders import PyPDFLoader
 from langchain.document_loaders import TextLoader
 from langchain.document_loaders import Docx2txtLoader
 from langchain.embeddings import GooglePalmEmbeddings
 from langchain.llms import GooglePalm
-from langchain.indexes import VectorstoreIndexCreator
+from langchain.prompts import PromptTemplate
+import pinecone
 
-from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 import os
 from dotenv import load_dotenv
 import tempfile
@@ -122,15 +119,11 @@ def main():
         text_chunks = text_splitter.split_documents(text)
 
         # # Create embeddings
-        # embeddings = GooglePalmEmbeddings()
+        embeddings = GooglePalmEmbeddings()
+        query_result = embeddings.embed_query("Hello World")
+        st.write(len(query_result))
 
-        # # Create vector store
-        # vector_store = FAISS.from_documents(text_chunks, embedding=embeddings)
-
-        index = VectorstoreIndexCreator(
-                embedding=GooglePalmEmbeddings(),
-                text_splitter=RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=0),
-            ).from_documents(text_chunks)
+       
 
         # Create the chain object
         chain = create_conversational_chain(index)
