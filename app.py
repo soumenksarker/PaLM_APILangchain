@@ -97,7 +97,7 @@ def main():
     st.sidebar.title("Document Processing")
     uploaded_files = st.sidebar.file_uploader("Upload multiple files texts, docx or pdfs", accept_multiple_files=True)
     st.sidebar.title("News Article URLs")
-    st.sidebar.write("To extract info from multiple url's, paste a single url and press the Process Urls each time! Info from new url will be accomodated to the system automatically!")
+    st.sidebar.write("To extract info from multiple URL's, remove the previous one and paste a single URL each time! Info from new URL will be accommodated to the system automatically!")
     urls = []
     for i in range(1):
         url = st.sidebar.text_input(f"URL {i+1}")
@@ -111,7 +111,8 @@ def main():
             loader = UnstructuredURLLoader(urls=urls)
             main_placeholder.text("Data Loading...Started...✅✅✅")
             text.extend(loader.load())
-            time.sleep(2)
+            urls=[]
+            #time.sleep(2)
             # data = loader.load()
             # # split data
             # text_splitter = RecursiveCharacterTextSplitter(
