@@ -62,7 +62,7 @@ def display_chat_history(chain):
 def create_conversational_chain(docsearch):
     load_dotenv()
     prompt_template  = """
-    Use the following piece of context to answer the question. Please provide a detailed response for each of the question.
+    Use the following piece of context and try google search if needed to answer the question. Please provide a detailed response for each of the question.
     
     {context}
     
