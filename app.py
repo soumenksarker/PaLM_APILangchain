@@ -103,24 +103,25 @@ def main():
         url = st.sidebar.text_input(f"URL {i+1}")
         urls.append(url)
     #st.sidebar.button("Process")
-   # main_placeholder = st.empty()
+    main_placeholder = st.empty()
     if uploaded_files or len(urls)>0:
         text = []
+        text_chunks=None
         if len(urls)>0:
             # load data
             loader = UnstructuredURLLoader(urls=urls)
-            st.sidebar.text("System is loading ✅✅✅")
+            main_placeholder.text("System is loading ✅✅✅")
             text.extend(loader.load())
             urls=[]
-            time.sleep(2)
-            # data = loader.load()
-            # # split data
-            # text_splitter = RecursiveCharacterTextSplitter(
-            #     separators=['\n\n', '\n', '.', ','],
-            #     chunk_size=1000
-            # )
-            # main_placeholder.text("Text Splitter...Started...✅✅✅")
-            # text_chunks = text_splitter.split_documents(data)
+            #time.sleep(2)
+            data = loader.load()
+            # split data
+            text_splitter = RecursiveCharacterTextSplitter(
+                separators=['\n\n', '\n', '.', ','],
+                chunk_size=1000
+            )
+            main_placeholder.text("Text Splitter...Started...✅✅✅")
+            text_chunks = text_splitter.split_documents(data)
         if uploaded_files:
             for file in uploaded_files:
                 file_extension = os.path.splitext(file.name)[1]
@@ -139,12 +140,12 @@ def main():
                 if loader:
                     text.extend(loader.load())
                     os.remove(temp_file_path)
-        #main_placeholder.sidebar.text("System is loading ✅✅✅")
-        text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
-        text_chunks = text_splitter.split_documents(text)
+            main_placeholder.text("System is loading ✅✅✅")
+            text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
+            text_chunks = text_splitter.split_documents(text)
         # Create the chain object
         chain=load_embedding(text_chunks)
-        st.sidebar.text("System is Running, Interact! ✅✅✅")
+        main_placeholder.text("System is Running, Interact! ✅✅✅")
         display_chat_history(chain)
 
 if __name__ == "__main__":
