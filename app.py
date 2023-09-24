@@ -101,7 +101,7 @@ def main():
     for i in range(1):
         url = st.sidebar.text_input(f"URL {i+1}")
         urls.append(url)
-    st.sidebar.write("To extract info from multiple URL's, paste a new URL one by one, info from new URL will be accommodated to the system automatically!")
+    st.sidebar.write("To extract info from multiple URL's, paste a new URL replacing the previous one, info from new URL will be accommodated to the system automatically!")
     #st.sidebar.button("Process")
     main_placeholder = st.empty()
     if uploaded_files or len(urls)>0:
