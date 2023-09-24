@@ -75,6 +75,7 @@ def create_conversational_chain(docsearch):
     return qa
 @st.cache
 def load_embedding(text_chunks):
+    load_dotenv()
     # # Create embeddings
     embeddings = GooglePalmEmbeddings()
     #query_result = embeddings.embed_query("Hello World")
