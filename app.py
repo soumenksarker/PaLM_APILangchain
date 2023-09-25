@@ -65,7 +65,7 @@ def display_chat_history(chain):
 def create_conversational_chain(docsearch):
     load_dotenv()
     prompt_template  = """
-    Based on the following piece of context and searching from other sources update if needed to answer the questions. Please provide a detailed response for each of the questions.
+    Based on the following piece of context answer the questions.  Search from other sources if needed. Please provide a detailed response for each of the questions.
     
     {context}
     
