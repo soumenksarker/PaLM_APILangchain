@@ -65,13 +65,13 @@ def display_chat_history(chain):
 def create_conversational_chain(docsearch):
     load_dotenv()
     prompt_template  = """
-    Base on the following piece of context and searching from other sources update if needed to answer the question. Please provide a detailed response for each of the questions.
+    Base on the following piece of context and searching from other sources update if needed to answer the question. Translate in Bangla language using Google Translate if the user asks for translation. Please provide a detailed response for each of the questions.
     
     {context}
     
     Question: {question}
     
-    Answer in English"""
+    Answer in English, and Bangla based on the input query and user demands"""
     prompt = PromptTemplate(template = prompt_template , input_variables=["context", "question"])
     llm = GooglePalm(temperature=0.1) 
     chain_type_kwargs = {"prompt": prompt}
