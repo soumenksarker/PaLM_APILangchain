@@ -23,8 +23,10 @@ load_dotenv()
 
 
 def initialize_session_state():
-    # if 'history' not in st.session_state:
-    #     st.session_state['history'] = []
+    if 'file' not in st.session_state:
+        st.session_state['file'] = "no"
+    if 'url' not in st.session_state:
+        st.session_state['url'] = "no"
 
     if 'generated' not in st.session_state:
         st.session_state['generated'] = ["Hello! Ask me anything beyond your provided information!🤗"]
@@ -92,20 +94,25 @@ def main():
     # Initialize session state
     initialize_session_state()
     st.title("Expert System/Information retrieval beyond your data:books:")
+
+    def change_file_state():
+        st.session_state.file="yes"
+    def change_url_state():
+        st.session_state.url="yes"
     
     # Initialize Streamlit
     st.sidebar.title("Document Processing")
-    uploaded_files = st.sidebar.file_uploader("Upload multiple files texts, docx or pdfs", accept_multiple_files=True)
+    uploaded_files = st.sidebar.file_uploader("Upload multiple files texts, docx or pdfs", accept_multiple_files=True, on_change=change_file_state)
     st.sidebar.title("Enter URLs")
     #urls = []
-    url = st.sidebar.text_input(f"URL")
+    url = st.sidebar.text_input(f"URL", on_change=change_url_state)
     #urls.append(url)
     st.sidebar.write("To extract info from multiple URL's, paste a new URL replacing the previous one, info from new URL will be accommodated to the system automatically!")
     #st.sidebar.button("Process")
     main_placeholder = st.empty()
     text = []
     text_chunks=[]
-    if url:
+    if url and st.session_state.url=="yes":
         # load data
         loader = UnstructuredURLLoader(urls=[url])
         main_placeholder.text("System is loading ✅✅✅")
@@ -120,10 +127,10 @@ def main():
         #main_placeholder.text("Text Splitter...Started...✅✅✅")
         text_chunks = text_splitter.split_documents(text)
         text=[]
-        url=False 
+        st.session_state.url="no"
         # urls=[]
         #urls = []
-    if uploaded_files:
+    if uploaded_files and st.session_state.file=="yes":
         for file in uploaded_files:
             file_extension = os.path.splitext(file.name)[1]
             with tempfile.NamedTemporaryFile(delete=False) as temp_file:
@@ -140,12 +147,12 @@ def main():
 
             if loader:
                 text.extend(loader.load())
-                os.remove(temp_file_path)
-        uploaded_files=False 
+                os.remove(temp_file_path) 
         main_placeholder.text("System is loading ✅✅✅")
         text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
         text_chunks = text_splitter.split_documents(text)
         text=[]
+        st.session_state.file="no"
         
       
     # Create the chain object
