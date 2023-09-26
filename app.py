@@ -29,7 +29,7 @@ def initialize_session_state():
         st.session_state['url'] = "no"
 
     if 'generated' not in st.session_state:
-        st.session_state['generated'] = ["Hello! Ask me anything beyond your provided information!🤗"]
+        st.session_state['generated'] = ["Hello! Ask me anything beyond your provided information! To upload pdfs or paste links, press the arrow on the top left corner 🤗"]
 
     if 'past' not in st.session_state:
         st.session_state['past'] = ["Hey! 👋"]
