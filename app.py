@@ -115,7 +115,7 @@ def main():
     if url and st.session_state.url=="yes":
         # load data
         loader = UnstructuredURLLoader(urls=[url])
-        main_placeholder.text("System is loading, please wait!✅✅✅")
+        main_placeholder.text("System is loading, please wait✅✅✅")
         text.extend(loader.load())
         # #time.sleep(2)
         # data = loader.load()
@@ -148,7 +148,7 @@ def main():
             if loader:
                 text.extend(loader.load())
                 os.remove(temp_file_path) 
-        main_placeholder.text("System is loading ✅✅✅")
+        main_placeholder.text("System is loading, please wait✅✅✅")
         text_splitter =RecursiveCharacterTextSplitter(separators=['\n\n', '\n', '.', ','],chunk_size=700, chunk_overlap=150) 
         text_chunks = text_splitter.split_documents(text)
         text=[]
