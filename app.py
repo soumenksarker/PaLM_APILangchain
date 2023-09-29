@@ -51,7 +51,7 @@ def display_chat_history(chain):
 
         if submit_button and user_input:
             with st.spinner('Generating response...'):
-                output = conversation_chat(user_input, chain)
+                output = conversation_chat(st.session_state['past'][-1]+user_input, chain)
 
             st.session_state['past'].append(user_input)
             st.session_state['generated'].append(output)
