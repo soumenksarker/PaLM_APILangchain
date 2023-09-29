@@ -45,13 +45,13 @@ def display_chat_history(chain):
 
     with container:
         with st.form(key='my_form', clear_on_submit=True):
-            user_input = st.text_input("Question:", placeholder="Ask about your Documents", key='input')
+            user_input = st.text_input("Question:", placeholder="Ask questions with your data's Keywords", key='input')
             _, c, _=st.columns([2,1,2])
             submit_button = c.form_submit_button(label='Send')
 
         if submit_button and user_input:
             with st.spinner('Generating response...'):
-                output = conversation_chat(st.session_state['past'][-1]+user_input, chain)
+                output = conversation_chat(user_input, chain)
 
             st.session_state['past'].append(user_input)
             st.session_state['generated'].append(output)
