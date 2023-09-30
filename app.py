@@ -45,7 +45,7 @@ def display_chat_history(chain):
 
     with container:
         with st.form(key='my_form', clear_on_submit=True):
-            user_input = st.text_input("Question:", placeholder="Ask questions with your data's Keywords", key='input')
+            user_input = st.text_input("Question:", placeholder="Ask questions about your data", key='input')
             _, c, _=st.columns([2,1,2])
             submit_button = c.form_submit_button(label='Send')
 
